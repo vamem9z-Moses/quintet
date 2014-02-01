@@ -1,0 +1,4 @@
+-r production.txt
+pytest==2.5.2
+ipython
+pytest-cov==1.6
