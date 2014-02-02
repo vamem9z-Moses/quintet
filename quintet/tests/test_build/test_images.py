@@ -1,7 +1,7 @@
 
 import pytest
 
-from tasks.build.images import DockerImage, DockerImageError
+from quintet.tasks.build.images import DockerImage, DockerImageError
 
 def test_dockerimage_build_dockerfile():
     """
