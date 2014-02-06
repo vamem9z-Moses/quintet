@@ -4,16 +4,22 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import sys
 
-
 class PyTest(TestCommand):
 
     # long option, short option, description
     user_options = [
                     ('flakes', None, 'Use pyflakes'),
                     ('coverage', 'C', 'Show coverage statistics'),
-                    ('jenkins', None, 'Options for jenkins'),
-
+                    ('jenkins', None, 'Test setup for jenkins'),
      ]
+    @classmethod
+    def add_project_specific_options(self):
+        """
+            Function for subclasses to add additional test args eg. location of tests
+
+            These options are likely to be specific to the project and are therefore not added to user_options above
+        """
+        pass
     def initialize_options(self):
         TestCommand.initialize_options(self)
         self.flakes = False
@@ -21,13 +27,13 @@ class PyTest(TestCommand):
         self.jenkins = False
     def finalize_options(self):
         TestCommand.finalize_options(self)
-        self.test_args = ['quintet/tests']
+        self.test_args = ["quintet/tests"]
         if self.flakes:
             self.test_args.append('--flakes')
         if self.coverage:
             self.test_args += [ '--cov', 'quintet', '--cov-report', 'term-missing']
         if self.jenkins:
-            self.test_args += [ '--cov', 'quintet', '--cov-report', 'xml', 'term-missing' ]
+            self.test_args += [ '--cov', 'quintet', '--cov-report', 'xml']
         self.test_suite = True
     def run_tests(self):
         import pytest
