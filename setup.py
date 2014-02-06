@@ -12,14 +12,6 @@ class PyTest(TestCommand):
                     ('coverage', 'C', 'Show coverage statistics'),
                     ('jenkins', None, 'Test setup for jenkins'),
      ]
-    @classmethod
-    def add_project_specific_options(self):
-        """
-            Function for subclasses to add additional test args eg. location of tests
-
-            These options are likely to be specific to the project and are therefore not added to user_options above
-        """
-        pass
     def initialize_options(self):
         TestCommand.initialize_options(self)
         self.flakes = False
