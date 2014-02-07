@@ -1,36 +1,15 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
-import sys
+from quintet.helpers.setuphelpers import PyTest
 
-class PyTest(TestCommand):
-
-    # long option, short option, description
-    user_options = [
-                    ('flakes', None, 'Use pyflakes'),
-                    ('coverage', 'C', 'Show coverage statistics'),
-                    ('jenkins', None, 'Test setup for jenkins'),
-     ]
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.flakes = False
-        self.coverage = False
-        self.jenkins = False
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ["quintet/tests"]
-        if self.flakes:
-            self.test_args.append('--flakes')
-        if self.coverage:
-            self.test_args += [ '--cov', 'quintet', '--cov-report', 'term-missing']
-        if self.jenkins:
-            self.test_args += [ '--cov', 'quintet', '--cov-report', 'xml']
-        self.test_suite = True
-    def run_tests(self):
-        import pytest
-        errno = pytest.main(self.test_args)
-        sys.exit(errno)
+class QuintetPyTest(PyTest):
+    """
+        Project specific test options for quintet
+    """
+    def add_project_specific_options(self):
+        self.test_args = ['quintet/tests']
+        self.package_name = 'quintet'
 
 setup(name='Quintet',
       version='0.1',
@@ -46,7 +25,7 @@ setup(name='Quintet',
       tests_require=['pytest==2.5.2',
                      'pytest-flakes',
                      'pytest-cov==1.6'],
-      cmdclass = {'test':PyTest},
+      cmdclass = {'test':QuintetPyTest},
     )
 
 
