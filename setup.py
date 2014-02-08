@@ -8,7 +8,6 @@ class QuintetPyTest(PyTest):
         Project specific test options for quintet
     """
     def add_project_specific_options(self):
-        self.test_args = ['quintet/tests']
         self.package_name = 'quintet'
 
 setup(name='Quintet',
@@ -21,10 +20,11 @@ setup(name='Quintet',
       classifiers=[
           "Development Status :: 2 - Pre-Alpha",
       ],
-      install_requires=['docker-py==0.2.3'],
-      tests_require=['pytest==2.5.2',
+      install_requires=['docker-py'],
+      tests_require=['pytest',
                      'pytest-flakes',
-                     'pytest-cov==1.6'],
+                     'pytest-cov'],
+      test_suite = "quintet.tests",
       cmdclass = {'test':QuintetPyTest},
     )
 
